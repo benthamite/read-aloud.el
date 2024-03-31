@@ -92,11 +92,11 @@ But he's just as dead as if he were wrong."))
 	 )))
 
 (defun read-aloud--cmd ()
-  (or (plist-get (plist-get read-aloud-engines read-aloud-engine) 'cmd)
+  (or (plist-get (plist-get read-aloud-engines read-aloud-engine 'equal) 'cmd)
       (user-error "Failed to get the default TTS engine")) )
 
 (defun read-aloud--args ()
-  (plist-get (plist-get read-aloud-engines read-aloud-engine) 'args))
+  (plist-get (plist-get read-aloud-engines read-aloud-engine 'equal) 'args))
 
 (defun read-aloud--valid-str-p (str)
   (and str (not (equal "" (string-trim str)))))
@@ -173,7 +173,7 @@ arbitual string like 'buffer', 'word' or 'selection'."
   (kill-process read-aloud--c-pr)
 
   ;; if a tts engine has a separate step to switch itself off, use it
-  (let ((c (plist-get (plist-get read-aloud-engines read-aloud-engine) 'kill)))
+  (let ((c (plist-get (plist-get read-aloud-engines read-aloud-engine 'equal) 'kill)))
     (when c
       (start-process-shell-command "read-aloud-kill" read-aloud--logbufname c)))
 
